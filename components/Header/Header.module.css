@@ -1,0 +1,31 @@
+.headerContainer {
+  position: relative;
+  z-index: 100;
+  transform: translateY(-3px);
+}
+
+.backdrop {
+  background-color: black !important;
+  z-index: 99 !important;
+}
+
+.backdropNavlinksContainer {
+  height: 80vh;
+  color: white;
+}
+
+.logoContainer {
+  width: 60px;
+  height: 60px;
+  background-color: black;
+}
+
+.logo {
+  height: 60px;
+}
+
+@media only screen and (min-wdith: 768px) {
+  .headerContainer {
+    transform: translateY(3px);
+  }
+}

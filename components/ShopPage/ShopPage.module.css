@@ -1,0 +1,14 @@
+.shopContainer {
+  margin-top: 40px;
+  padding: 0 30px;
+}
+
+.mark {
+  width: 200px;
+}
+
+@media only screen and (min-width: 960px) {
+  .shopContainer {
+    padding: 0;
+  }
+}
