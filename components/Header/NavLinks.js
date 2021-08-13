@@ -4,7 +4,6 @@ import Link from "next/link";
 const links = [
   { href: "/", label: "HOME" },
   { href: "/shop", label: "SHOP" },
-  { href: "/magazine", label: "MAGAZINE" },
 ];
 
 const NavLinks = ({ handleClose, isLoggedIn, backdrop }) => {
