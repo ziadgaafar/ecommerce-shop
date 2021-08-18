@@ -176,7 +176,7 @@ const Profile = () => {
                 </Box>
                 <form onSubmit={formik.handleSubmit}>
                   <Grid container justifyContent="center" spacing={2}>
-                    <Grid item xs={10} lg={8}>
+                    <Grid item xs={12} lg={8}>
                       <TextField
                         fullWidth
                         id="firstName"
@@ -193,7 +193,7 @@ const Profile = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={10} lg={8}>
+                    <Grid item xs={12} lg={8}>
                       <TextField
                         fullWidth
                         id="lastName"
@@ -210,7 +210,7 @@ const Profile = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={10} lg={8}>
+                    <Grid item xs={12} lg={8}>
                       <TextField
                         fullWidth
                         id="email"
@@ -225,7 +225,7 @@ const Profile = () => {
                         disabled
                       />
                     </Grid>
-                    <Grid item xs={10} lg={8}>
+                    <Grid item xs={12} lg={8}>
                       <TextField
                         fullWidth
                         id="newPassword"
@@ -245,7 +245,7 @@ const Profile = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={10} lg={8}>
+                    <Grid item xs={12} lg={8}>
                       <TextField
                         fullWidth
                         id="currentPassword"

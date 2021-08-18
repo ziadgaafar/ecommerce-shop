@@ -1,4 +1,11 @@
-import { Button, Grid, Typography } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Typography,
+  Container,
+  Box,
+  Paper,
+} from "@material-ui/core";
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import axios from "../../axios";
 import { useState } from "react";
@@ -27,16 +34,18 @@ const ProductDetails = ({ data }) => {
       <div style={{ marginTop: 32 }}>
         <Grid container spacing={mdUp ? 2 : 0}>
           <Grid item md={8}>
-            <img
-              src={product.images[tab].url}
-              alt={product.title}
-              style={{
-                objectFit: "cover",
-                width: "100%",
-                maxHeight: 500,
-                objectPosition: "center",
-              }}
-            />
+            <Paper>
+              <img
+                src={product.images[tab].url}
+                alt={product.title}
+                style={{
+                  objectFit: "contain",
+                  width: "100%",
+                  maxHeight: 500,
+                  objectPosition: "center",
+                }}
+              />
+            </Paper>
             <Grid container>
               {product.images.map((image, index) => (
                 <Grid
@@ -64,48 +73,50 @@ const ProductDetails = ({ data }) => {
           </Grid>
 
           <Grid item md={4}>
-            <Typography variant="h2">{product.title}</Typography>
-            <Typography variant="h6" gutterBottom>
-              <strong>${product.price}</strong>
-            </Typography>
-            <Grid container justifyContent="space-between">
-              <Grid item>
-                <Typography
-                  style={{ color: product.inStock ? "#0BDA51" : "" }}
-                  color={product.inStock > 0 ? "initial" : "secondary"}
-                  variant="body1"
-                  paragraph
-                  gutterBottom
-                >
-                  {product.inStock ? "In Stock" : "Out of Stock"}
-                </Typography>
+            <Box padding={!mdUp ? 2 : 0}>
+              <Typography variant="h2">{product.title}</Typography>
+              <Typography variant="h6" gutterBottom>
+                <strong>${product.price}</strong>
+              </Typography>
+              <Grid container justifyContent="space-between">
+                <Grid item>
+                  <Typography
+                    style={{ color: product.inStock ? "#0BDA51" : "" }}
+                    color={product.inStock > 0 ? "initial" : "secondary"}
+                    variant="body1"
+                    paragraph
+                    gutterBottom
+                  >
+                    {product.inStock ? "In Stock" : "Out of Stock"}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    color="secondary"
+                    variant="body1"
+                    paragraph
+                    gutterBottom
+                  >
+                    Sold: <strong>{product.sold}</strong>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography
-                  color="secondary"
-                  variant="body1"
-                  paragraph
-                  gutterBottom
-                >
-                  Sold: <strong>{product.sold}</strong>
-                </Typography>
-              </Grid>
-            </Grid>
-            <Typography variant="body1" paragraph gutterBottom>
-              {product.content}
-            </Typography>
+              <Typography variant="body1" paragraph gutterBottom>
+                {product.content}
+              </Typography>
 
-            <Grid item xs>
-              <Button
-                fullWidth
-                color="primary"
-                variant="contained"
-                disabled={product.inStock === 0}
-                onClick={() => addToCartHandler(dispatch, product, cart)}
-              >
-                ADD TO CART
-              </Button>
-            </Grid>
+              <Grid item xs>
+                <Button
+                  fullWidth
+                  color="primary"
+                  variant="contained"
+                  disabled={product.inStock === 0}
+                  onClick={() => addToCartHandler(dispatch, product, cart)}
+                >
+                  ADD TO CART
+                </Button>
+              </Grid>
+            </Box>
           </Grid>
         </Grid>
       </div>

@@ -1,13 +1,11 @@
 import React from "react";
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_SNACKBAR } from "../../redux/snackbar";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { Slide } from "@material-ui/core";
+import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CustomizedSnackbars() {
+  const theme = useTheme();
+  const mdUp = useMediaQuery(theme.breakpoints.up("md"));
   const classes = useStyles();
   const { snackbarOpen, snackbarMessage, snackbarType } = useSelector(
     (state) => state.snackbar
@@ -42,10 +42,17 @@ export default function CustomizedSnackbars() {
   return (
     <div className={classes.root}>
       <Snackbar
+        key={snackbarMessage}
+        disableWindowBlurListener
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        TransitionComponent={Slide}
+        anchorOrigin={{
+          horizontal: mdUp ? "right" : "center",
+          vertical: "top",
+        }}
+        style={{ top: 60 }}
       >
         <Alert onClose={handleClose} severity={snackbarType}>
           {snackbarMessage}

@@ -13,10 +13,13 @@ import {
   DialogContentText,
   DialogTitle,
   Checkbox,
+  Box,
 } from "@material-ui/core";
 import { AddShoppingCart } from "@material-ui/icons";
 import { addToCartHandler } from "../../utils/cartHandlers";
 import { useHttpClient } from "../../hooks/http-hook";
+import Carousel from "react-material-ui-carousel";
+import image from "next/image";
 
 const Product = ({ product, handleSelect, selectedIds }) => {
   const cart = useSelector((state) => state.cart);
@@ -89,14 +92,18 @@ const Product = ({ product, handleSelect, selectedIds }) => {
             onMouseEnter={() => setGrow(true)}
             onMouseLeave={() => setGrow(false)}
           >
-            <Image
-              src={product.images[0].url}
-              alt={product.title}
-              width={500}
-              height={400}
-              objectFit="cover"
-              objectPosition="center"
-            />
+            <Carousel navButtonsAlwaysInvisible>
+              {product.images.map((image, index) => (
+                <Image
+                  src={image.url}
+                  alt={image.public_id}
+                  width={500}
+                  height={400}
+                  objectFit="cover"
+                  objectPosition="center"
+                />
+              ))}
+            </Carousel>
 
             <Grow in={grow}>
               <Grid
@@ -107,7 +114,7 @@ const Product = ({ product, handleSelect, selectedIds }) => {
                   position: "absolute",
                   zIndex: 1,
                   width: "100%",
-                  height: "100%",
+                  height: "87%",
                   backdropFilter: "blur(2px)",
                 }}
               >

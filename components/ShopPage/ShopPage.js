@@ -31,8 +31,9 @@ import Product from "../Product";
 import SortMenu from "./SortMenu";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
+import { SET_SNACKBAR } from "../../redux/snackbar";
 
 const values = [
   { value: "all", label: "Sort" },
@@ -45,6 +46,7 @@ const values = [
 const filters = [{ value: "category", label: "Category" }];
 
 const ShopPage = ({ data, categories }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const { sendRequest } = useHttpClient();
   const { token, user } = useSelector((state) => state.auth);
@@ -98,6 +100,15 @@ const ShopPage = ({ data, categories }) => {
         max: range[1],
       },
     });
+
+    if (resdata.products.length === 0) {
+      dispatch(
+        SET_SNACKBAR({
+          snackbarType: "info",
+          snackbarMessage: `Couldn't find any products!`,
+        })
+      );
+    }
 
     if (resdata.products.length < 8) {
       setShowMore(false);
@@ -292,12 +303,23 @@ const ShopPage = ({ data, categories }) => {
           <Grid container spacing={4} alignItems="flex-end">
             {/* Search */}
             <Grid item xs={12} md={8}>
-              <Grid container alignItems="flex-end">
-                <Grid item xs={1}>
-                  <SearchIcon fontSize="large" />
-                </Grid>
-                <Grid item xs>
-                  <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
+                <Grid
+                  container
+                  alignItems="flex-end"
+                  style={{ transform: "translateY(1px)" }}
+                >
+                  <Grid item>
+                    <SearchIcon
+                      fontSize="large"
+                      style={{
+                        transform: "translateY(6px)",
+                        cursor: "pointer",
+                      }}
+                      onClick={formik.handleSubmit}
+                    />
+                  </Grid>
+                  <Grid item xs>
                     <TextField
                       label="Search"
                       name="search"
@@ -308,11 +330,11 @@ const ShopPage = ({ data, categories }) => {
                       fullWidth
                       margin="dense"
                     />
-                  </form>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </form>
             </Grid>
-            {/* Best Match */}
+            {/* Sort */}
             <Grid item xs={12} md={4}>
               <Grid container justifyContent="center">
                 <SortMenu values={values} setValue={setValue} value={value} />

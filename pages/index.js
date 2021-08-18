@@ -45,13 +45,10 @@ export default function Home() {
             style={{ height: "70%" }}
           >
             <Grid item>
-              <Typography
-                variant={mdUp ? "h3" : "h2"}
-                style={{ fontWeight: 400 }}
-              >
+              <Typography variant="h3" style={{ fontWeight: 400 }}>
                 E-commerce
               </Typography>
-              <Typography variant="h4" gutterBottom>
+              <Typography variant="h5" color="textSecondary" gutterBottom>
                 Landing Page
               </Typography>
               <Typography paragraph gutterBottom>

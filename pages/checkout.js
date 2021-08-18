@@ -87,7 +87,12 @@ const Checkout = ({ session_id }) => {
           <Container maxWidth="md">
             <Paper>
               <Box padding="16px">
-                <Typography variant="h3" gutterBottom paragraph>
+                <Typography
+                  variant="h3"
+                  gutterBottom
+                  paragraph
+                  align={!mdUp ? "center" : "left"}
+                >
                   Order Placed
                 </Typography>
                 <Typography gutterBottom>
@@ -102,17 +107,11 @@ const Checkout = ({ session_id }) => {
                 <Box padding="16px 0">
                   <Grid container justifyContent="space-between">
                     {info.map((item) => (
-                      <Grid item xs={!mdUp && 6} key={item.value}>
-                        <Grid container direction="column">
-                          <Grid item>
-                            <Typography color="textSecondary">
-                              {item.label}
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography>{item.value}</Typography>
-                          </Grid>
-                        </Grid>
+                      <Grid item key={item.value} xs={!mdUp && 6}>
+                        <Typography color="textSecondary">
+                          {item.label}
+                        </Typography>
+                        <Typography noWrap>{item.value}</Typography>
                       </Grid>
                     ))}
                   </Grid>

@@ -84,7 +84,6 @@ const Login = ({}) => {
             Authorization: `Bearer ${responseData.accessToken}`,
           },
         });
-        console.log;
         dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
       }
 
@@ -196,7 +195,7 @@ const Login = ({}) => {
             spacing={1}
           >
             <Grid item>
-              <Typography>Forget Your Password?</Typography>
+              <Typography>Don't have and account ?</Typography>
             </Grid>
             <Grid item>
               <Link href="/register">

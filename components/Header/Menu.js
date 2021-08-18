@@ -141,11 +141,13 @@ export default function MenuListComposition({
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem
-                      onClick={(event) => clickHandler(event, "/profile")}
-                    >
-                      Profile
-                    </MenuItem>
+                    <a>
+                      <MenuItem
+                        onClick={(event) => clickHandler(event, "/profile")}
+                      >
+                        Profile
+                      </MenuItem>
+                    </a>
                     {role && role === "admin" && (
                       <div>
                         <MenuItem

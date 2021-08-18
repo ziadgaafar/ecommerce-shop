@@ -12,26 +12,14 @@ const NavLinks = ({ handleClose, isLoggedIn, backdrop }) => {
       {links.map((link) => (
         <Grid item key={link.href}>
           <Link href={link.href}>
-            <MaterialLink
-              underline="none"
-              color="inherit"
-              onClick={handleClose}
-            >
-              {link.label}
-            </MaterialLink>
+            <a onClick={handleClose}>{link.label}</a>
           </Link>
         </Grid>
       ))}
       {!isLoggedIn && backdrop && (
         <Grid item>
           <Link href="/login">
-            <MaterialLink
-              underline="none"
-              color="inherit"
-              onClick={handleClose}
-            >
-              LOGIN
-            </MaterialLink>
+            <a onClick={handleClose}>LOGIN</a>
           </Link>
         </Grid>
       )}

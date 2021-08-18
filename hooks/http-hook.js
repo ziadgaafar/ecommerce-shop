@@ -35,7 +35,6 @@ export const useHttpClient = () => {
       } catch (error) {
         dispatch(SET_LOADING(false));
         if (error.response) {
-          console.log(error.response);
           dispatch(
             SET_SNACKBAR({
               snackbarType: "error",

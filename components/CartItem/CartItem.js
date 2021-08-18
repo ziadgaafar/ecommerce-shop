@@ -1,13 +1,18 @@
+import { useMediaQuery } from "@material-ui/core";
 import {
   Button,
   Divider,
   Grid,
   IconButton,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const CartItem = ({ item, removeHandler, increment, decrement }) => {
+  const theme = useTheme();
+  const mdUp = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <div style={{ marginBottom: 16 }}>
       <Grid container justifyContent="space-between">
@@ -54,9 +59,10 @@ const CartItem = ({ item, removeHandler, increment, decrement }) => {
             <Grid item xs>
               <Grid
                 container
-                spacing={1}
+                spacing={mdUp ? 1 : 0}
                 alignItems="center"
                 justifyContent="flex-end"
+                direction={mdUp ? "row" : "column"}
               >
                 <Grid item>
                   <Button
