@@ -32,24 +32,3 @@ a:hover {
 .green-in-stock {
   color: #0bda51;
 }
-
-.custom-shape-divider-bottom-1628867198 {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  transform: rotate(180deg);
-}
-
-.custom-shape-divider-bottom-1628867198 svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 223px;
-}
-
-.custom-shape-divider-bottom-1628867198 .shape-fill {
-  fill: #afd2e9;
-}
