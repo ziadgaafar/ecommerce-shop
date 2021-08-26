@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 const Layout = ({ children }) => {
   const { sendRequest } = useHttpClient();
   const { isLoading } = useSelector((state) => state.loading);
-  const { cart, auth } = useSelector((state) => state);
+  const { cart } = useSelector((state) => state);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -29,6 +29,10 @@ const Layout = ({ children }) => {
             Authorization: `Bearer ${refreshToken}`,
           },
         });
+        if (!responseData) {
+          setLoaded(true);
+          return localStorage.removeItem("firstLogin");
+        }
         dispatch(
           LOGIN({
             token: responseData.accessToken,
