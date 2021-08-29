@@ -1,4 +1,4 @@
-import { Button, useTheme, Box, Grid, Typography } from "@material-ui/core";
+import { Button, useTheme, Grid, Typography } from "@material-ui/core";
 import { useMediaQuery } from "@material-ui/core";
 import { useRouter } from "next/router";
 import Head from "next/head";

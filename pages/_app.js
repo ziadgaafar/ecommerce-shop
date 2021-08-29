@@ -9,6 +9,7 @@ import Layout from "../components/Layout";
 import Snackbar from "../components/Snackbar";
 import "../styles/globals.css";
 import "../styles/nprogress.css";
+import { AnimatePresence } from "framer-motion";
 const theme = createTheme({
   palette: {
     type: "light",
@@ -21,7 +22,7 @@ const theme = createTheme({
   },
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   NProgress.configure({ trickle: false });
   Router.onRouteChangeStart = () => {
     NProgress.start();
@@ -47,10 +48,12 @@ function MyApp({ Component, pageProps }) {
     <>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <Snackbar />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <AnimatePresence exitBeforeEnter>
+            <Snackbar />
+            <Layout key={router.route}>
+              <Component {...pageProps} />
+            </Layout>
+          </AnimatePresence>
         </ThemeProvider>
       </Provider>
     </>

@@ -4,13 +4,11 @@ import {
   Hidden,
   IconButton,
   Link as MaterialLink,
-  Typography,
   Backdrop,
   Badge,
   Avatar,
   useTheme,
   AppBar,
-  Toolbar,
 } from "@material-ui/core";
 import Link from "next/link";
 import classes from "./Header.module.css";

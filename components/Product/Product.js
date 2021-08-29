@@ -95,6 +95,7 @@ const Product = ({ product, handleSelect, selectedIds }) => {
             <Carousel navButtonsAlwaysInvisible>
               {product.images.map((image, index) => (
                 <Image
+                  key={image.public_id}
                   src={image.url}
                   alt={image.public_id}
                   width={500}
