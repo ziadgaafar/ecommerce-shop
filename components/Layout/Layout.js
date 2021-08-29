@@ -2,7 +2,7 @@ import { Container, Backdrop, CircularProgress } from "@material-ui/core";
 import Header from "../Header";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LOGIN } from "../../redux/auth";
 import { ADD_CART } from "../../redux/cart";
 import { ADD_TO_ORDERS_LIST } from "../../redux/orders";
@@ -22,6 +22,7 @@ const Layout = ({ children }) => {
   const { sendRequest } = useHttpClient();
   const { isLoading } = useSelector((state) => state.loading);
   const { cart } = useSelector((state) => state);
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -79,6 +80,7 @@ const Layout = ({ children }) => {
           dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
         }
       }
+      setLoaded(true);
     })();
 
     // get the saved cart from local storage
@@ -105,16 +107,18 @@ const Layout = ({ children }) => {
         <header>
           <Header />
         </header>
-        <motion.main
-          variants={variants}
-          initial="hidden"
-          animate="enter"
-          exit="exit"
-          transition={{ type: "linear" }}
-          style={{ marginTop: 64 }}
-        >
-          {children}
-        </motion.main>
+        {loaded && (
+          <motion.main
+            variants={variants}
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+            transition={{ type: "linear" }}
+            style={{ marginTop: 64 }}
+          >
+            {children}
+          </motion.main>
+        )}
       </Container>
     </CustomScrollbar>
   );

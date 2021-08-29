@@ -195,7 +195,7 @@ const Login = ({}) => {
             spacing={1}
           >
             <Grid item>
-              <Typography>Don't have and account ?</Typography>
+              <Typography>Don't have an account ?</Typography>
             </Grid>
             <Grid item>
               <Link href="/register">

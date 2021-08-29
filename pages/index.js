@@ -2,6 +2,43 @@ import { Button, useTheme, Grid, Typography } from "@material-ui/core";
 import { useMediaQuery } from "@material-ui/core";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { motion } from "framer-motion";
+
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.6,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const leftItem = {
+  hidden: { x: -200, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      ease: "easeOut",
+      duration: 1,
+    },
+  },
+};
+
+const item = {
+  hidden: { x: 200, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      ease: "easeOut",
+      duration: 0.6,
+    },
+  },
+};
 
 export default function Home() {
   const theme = useTheme();
@@ -14,34 +51,42 @@ export default function Home() {
       </Head>
       <Grid
         container
+        component={motion.div}
+        variants={container}
+        initial="hidden"
+        animate="visible"
         justifyContent="center"
         style={{
           position: "relative",
           height: `calc(100vh - 64px)`,
-          backgroundImage: mdUp && `url("layered-steps-haikei.svg")`,
+          backgroundImage: mdUp && `url("blob-scene-haikei.svg")`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
         {!mdUp && (
           <img
-            src="landing.png"
+            src="undraw_Online_shopping_re_k1sv.svg"
             alt="shop"
             style={{
               position: "absolute",
               width: "100%",
               opacity: 0.3,
               zIndex: -1,
-              top: 20,
+              top: "20%",
             }}
           />
         )}
         {mdUp && (
-          <Grid item md={8}>
-            <img src="landing.png" alt="landing" style={{ width: "100%" }} />
+          <Grid item md={8} component={motion.div} variants={leftItem}>
+            <img
+              src="undraw_Online_shopping_re_k1sv.svg"
+              alt="landing"
+              style={{ width: "95%" }}
+            />
           </Grid>
         )}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4} component={motion.div} variants={item}>
           <Grid
             container
             justifyContent="center"
@@ -49,7 +94,7 @@ export default function Home() {
             style={{ height: "70%" }}
           >
             <Grid item>
-              <Typography variant="h3" style={{ fontWeight: 400 }}>
+              <Typography variant="h3" style={{ fontWeight: 500 }}>
                 E-commerce
               </Typography>
               <Typography variant="h5" color="textSecondary" gutterBottom>
