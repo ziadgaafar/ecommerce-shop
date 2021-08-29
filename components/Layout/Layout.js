@@ -1,4 +1,4 @@
-import { Container, Backdrop, CircularProgress } from "@material-ui/core";
+import { Container, Backdrop } from "@material-ui/core";
 import Header from "../Header";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,49 @@ const variants = {
   hidden: { opacity: 0, x: -200, y: 0 },
   enter: { opacity: 1, x: 0, y: 0 },
   exit: { opacity: 0, x: 0, y: -100 },
+};
+
+const loadingContainer = {
+  width: "3rem",
+  height: "3rem",
+  display: "flex",
+  justifyContent: "space-around",
+};
+
+const loadingCircle = {
+  display: "block",
+  width: "0.8rem",
+  height: "0.8rem",
+  backgroundColor: "black",
+  borderRadius: "50%",
+};
+
+const loadingContainerVariants = {
+  start: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+  end: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const loadingCircleVariants = {
+  start: {
+    y: "50%",
+  },
+  end: {
+    y: "150%",
+  },
+};
+
+const loadingCircleTransition = {
+  duration: 0.5,
+  yoyo: Infinity,
+  ease: "easeInOut",
 };
 
 const Layout = ({ children }) => {
@@ -100,7 +143,28 @@ const Layout = ({ children }) => {
   return (
     <CustomScrollbar>
       <Backdrop style={{ zIndex: 9999999999 }} open={isLoading}>
-        <CircularProgress />
+        <motion.div
+          style={loadingContainer}
+          variants={loadingContainerVariants}
+          initial="start"
+          animate="end"
+        >
+          <motion.span
+            style={loadingCircle}
+            variants={loadingCircleVariants}
+            transition={loadingCircleTransition}
+          />
+          <motion.span
+            style={loadingCircle}
+            variants={loadingCircleVariants}
+            transition={loadingCircleTransition}
+          />
+          <motion.span
+            style={loadingCircle}
+            variants={loadingCircleVariants}
+            transition={loadingCircleTransition}
+          />
+        </motion.div>
       </Backdrop>
 
       <Container disableGutters fixed>
