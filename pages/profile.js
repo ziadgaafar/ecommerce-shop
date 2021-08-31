@@ -9,19 +9,21 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import withAuth from "../hoc/withAuth";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useState } from "react";
-import { useHttpClient } from "../hooks/http-hook";
-import { imageUpload } from "../utils/imageUpload";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import { useDispatch, useSelector } from "react-redux";
 import { SET_LOADING } from "../redux/loading";
 import { UPDATE_USER } from "../redux/auth";
-import { useRouter } from "next/router";
-import OrdersTable from "../components/OrdersTable";
 import { SET_SNACKBAR } from "../redux/snackbar";
-import Head from "next/head";
+import { ADD_ORDERS_LIST } from "../redux/orders";
+import withAuth from "../hoc/withAuth";
+import { useHttpClient } from "../hooks/http-hook";
+import { imageUpload } from "../utils/imageUpload";
+import OrdersTable from "../components/OrdersTable";
 
 const schema = yup.object({
   firstName: yup.string().min(4, "Enter a Valid Name"),
@@ -107,6 +109,22 @@ const Profile = () => {
     });
     dispatch(UPDATE_USER({ avatar: imgArr[0].url }));
   };
+
+  useEffect(() => {
+    (async () => {
+      if (token) {
+        // get orders for the logged in user or all orders in admin
+        const resData = await sendRequest({
+          ignoreSnackbar: true,
+          url: "/orders",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(ADD_ORDERS_LIST(resData.orders));
+      }
+    })();
+  }, [token]);
 
   return (
     <>

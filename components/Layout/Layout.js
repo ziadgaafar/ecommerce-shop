@@ -5,9 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { LOGIN } from "../../redux/auth";
 import { ADD_CART } from "../../redux/cart";
-import { ADD_TO_ORDERS_LIST } from "../../redux/orders";
-import { ADD_USERS_LIST } from "../../redux/users";
-import { ADD_CATEGORIES_LIST } from "../../redux/categories";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import CustomScrollbar from "../CustomScrollbar";
@@ -89,39 +86,6 @@ const Layout = ({ children }) => {
             user: responseData.user,
           })
         );
-
-        // get orders for the logged in user or all orders in admin
-        const resData = await sendRequest({
-          ignoreSnackbar: true,
-          url: "/orders",
-          headers: {
-            Authorization: `Bearer ${responseData.accessToken}`,
-          },
-        });
-        dispatch(ADD_TO_ORDERS_LIST(resData.orders));
-
-        // get all users and categories if admin
-        if (responseData.user.role === "admin") {
-          //get all users
-          const data = await sendRequest({
-            ignoreSnackbar: true,
-            url: "/user/all",
-            headers: {
-              Authorization: `Bearer ${responseData.accessToken}`,
-            },
-          });
-          dispatch(ADD_USERS_LIST(data.users));
-
-          // get categories
-          const categoriesData = await sendRequest({
-            ignoreSnackbar: true,
-            url: "/categories",
-            headers: {
-              Authorization: `Bearer ${responseData.accessToken}`,
-            },
-          });
-          dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
-        }
       }
       setLoaded(true);
     })();

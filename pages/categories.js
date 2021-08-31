@@ -110,8 +110,22 @@ const Categories = ({}) => {
           snackbarMessage: `You're not authorized!`,
         })
       );
-      router.push("/profile");
+      return router.push("/profile");
     }
+
+    (async () => {
+      if (auth.token) {
+        // get categories
+        const categoriesData = await sendRequest({
+          ignoreSnackbar: true,
+          url: "/categories",
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        });
+        dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
+      }
+    })();
   }, [auth.token]);
 
   return (

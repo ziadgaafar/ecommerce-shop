@@ -6,11 +6,14 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { SET_SNACKBAR } from "../../redux/snackbar";
 import Head from "next/head";
+import { useHttpClient } from "../../hooks/http-hook";
+import { ADD_USERS_LIST } from "../../redux/users";
 
 const Users = ({}) => {
   const { users, auth } = useSelector((state) => state);
   const router = useRouter();
   const dispatch = useDispatch();
+  const { sendRequest } = useHttpClient();
 
   useEffect(() => {
     if (auth.token && auth?.user?.role !== "admin") {
@@ -20,8 +23,22 @@ const Users = ({}) => {
           snackbarMessage: `You're Not Authorized`,
         })
       );
-      router.push("/profile");
+      return router.push("/profile");
     }
+
+    (async () => {
+      //get all users
+      if (auth.token) {
+        const data = await sendRequest({
+          ignoreSnackbar: true,
+          url: "/user/all",
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        });
+        dispatch(ADD_USERS_LIST(data.users));
+      }
+    })();
   }, [auth.token]);
 
   return (
