@@ -8,6 +8,7 @@ import { ADD_CART } from "../../redux/cart";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import CustomScrollbar from "../CustomScrollbar";
+import { CodeSharp } from "@material-ui/icons";
 
 const variants = {
   hidden: { opacity: 0, x: -200, y: 0 },
@@ -61,7 +62,7 @@ const loadingCircleTransition = {
 const Layout = ({ children }) => {
   const { sendRequest } = useHttpClient();
   const { isLoading } = useSelector((state) => state.loading);
-  const { cart } = useSelector((state) => state);
+  const { cart, auth } = useSelector((state) => state);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -69,7 +70,7 @@ const Layout = ({ children }) => {
       // update access token if the user is already logged in
       const firstLogin = localStorage.getItem("firstLogin");
       const refreshToken = Cookies.get("refreshToken");
-      if (firstLogin) {
+      if (firstLogin && !auth.token) {
         const responseData = await sendRequest({
           ignoreSnackbar: true,
           url: `/user/accessToken`,
