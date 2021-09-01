@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import CustomScrollbar from "../CustomScrollbar";
 import { CodeSharp } from "@material-ui/icons";
+import { ADD_CATEGORIES_LIST } from "../../redux/categories";
 
 const variants = {
   hidden: { opacity: 0, x: -200, y: 0 },
@@ -87,6 +88,18 @@ const Layout = ({ children }) => {
             user: responseData.user,
           })
         );
+
+        // get all categories if admin
+        if (responseData.user.role === "admin") {
+          const categoriesData = await sendRequest({
+            ignoreSnackbar: true,
+            url: "/categories",
+            headers: {
+              Authorization: `Bearer ${responseData.accessToken}`,
+            },
+          });
+          dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
+        }
       }
       setLoaded(true);
     })();
