@@ -20,13 +20,11 @@ import { useEffect, useState } from "react";
 import NavLinks from "./NavLinks";
 import { useSelector } from "react-redux";
 import Menu from "./Menu";
-import { useRouter } from "next/router";
 import { useMediaQuery } from "@material-ui/core";
 
 const Header = ({}) => {
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up("md"));
-  const router = useRouter();
   const cart = useSelector((state) => state.cart);
   const [open, setOpen] = useState(false);
   const { user, token } = useSelector((state) => state.auth);
@@ -71,15 +69,18 @@ const Header = ({}) => {
             }}
           >
             <Grid item className={classes.logoContainer}>
-              <StorefrontIcon
-                style={{
-                  color: "white",
-                  width: "100%",
-                  height: "100%",
-                  cursor: "pointer",
-                }}
-                onClick={() => router.push("/")}
-              />
+              <Link href="/">
+                <a>
+                  <StorefrontIcon
+                    style={{
+                      color: "white",
+                      width: "100%",
+                      height: "100%",
+                      cursor: "pointer",
+                    }}
+                  />
+                </a>
+              </Link>
             </Grid>
             <Hidden smDown>
               <Grid item xs>
@@ -91,14 +92,18 @@ const Header = ({}) => {
             <Grid item>
               <Grid container alignItems="center">
                 <Grid item>
-                  <IconButton onClick={() => router.push("/cart")}>
-                    <Badge badgeContent={cart.length} color="secondary">
-                      <ShoppingCartIcon
-                        style={{ color: open ? "white" : "black" }}
-                        fontSize="large"
-                      />
-                    </Badge>
-                  </IconButton>
+                  <Link href="/cart">
+                    <a>
+                      <IconButton>
+                        <Badge badgeContent={cart.length} color="secondary">
+                          <ShoppingCartIcon
+                            style={{ color: open ? "white" : "black" }}
+                            fontSize="large"
+                          />
+                        </Badge>
+                      </IconButton>
+                    </a>
+                  </Link>
                 </Grid>
                 {token && (
                   <Hidden mdUp>

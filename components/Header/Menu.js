@@ -17,6 +17,7 @@ import { REMOVE_ORDERS_LIST } from "../../redux/orders";
 import { REMOVE_USERS_LIST } from "../../redux/users";
 import { REMOVE_CATEGORIES_LIST } from "../../redux/categories";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,11 +82,6 @@ export default function MenuListComposition({
     router.push("/login");
   }
 
-  function clickHandler(event, path) {
-    handleClose(event);
-    router.push(path);
-  }
-
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -141,34 +137,32 @@ export default function MenuListComposition({
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    <a>
-                      <MenuItem
-                        onClick={(event) => clickHandler(event, "/profile")}
-                      >
-                        Profile
-                      </MenuItem>
-                    </a>
+                    <Link href="/profile">
+                      <a>
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      </a>
+                    </Link>
                     {role && role === "admin" && (
                       <div>
-                        <MenuItem
-                          onClick={(event) => clickHandler(event, "/users")}
-                        >
-                          Users
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(event) =>
-                            clickHandler(event, "/categories")
-                          }
-                        >
-                          Categories
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(event) =>
-                            clickHandler(event, "/products/create")
-                          }
-                        >
-                          Add Product
-                        </MenuItem>
+                        <Link href="/users">
+                          <a>
+                            <MenuItem onClick={handleClose}>Users</MenuItem>
+                          </a>
+                        </Link>
+                        <Link href="/categories">
+                          <a>
+                            <MenuItem onClick={handleClose}>
+                              Categories
+                            </MenuItem>
+                          </a>
+                        </Link>
+                        <Link href="/products/create">
+                          <a>
+                            <MenuItem onClick={handleClose}>
+                              Add Product
+                            </MenuItem>
+                          </a>
+                        </Link>
                       </div>
                     )}
                     <Divider />
