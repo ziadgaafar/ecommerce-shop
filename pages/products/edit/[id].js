@@ -389,7 +389,7 @@ const EditProduct = ({ product }) => {
   );
 };
 
-export default EditProduct;
+export default withAuth(EditProduct);
 
 export const getServerSideProps = async (context) => {
   const id = context.params.id;
