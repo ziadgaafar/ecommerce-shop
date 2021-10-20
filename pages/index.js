@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>E-commerce Shop</title>
+        <title>eCommerce Shop</title>
       </Head>
       <Grid
         container
@@ -95,7 +95,7 @@ export default function Home() {
           >
             <Grid item>
               <Typography variant="h3" style={{ fontWeight: 500 }}>
-                E-commerce
+                eCommerce
               </Typography>
               <Typography variant="h5" color="textSecondary" gutterBottom>
                 Landing Page
