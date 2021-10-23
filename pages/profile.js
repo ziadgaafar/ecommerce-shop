@@ -113,7 +113,7 @@ const Profile = () => {
   useEffect(() => {
     (async () => {
       if (token) {
-        // get orders for the logged in user or all orders in admin
+        // get orders for the logged in user or all orders if admin
         const resData = await sendRequest({
           ignoreSnackbar: true,
           url: "/orders",

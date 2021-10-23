@@ -24,6 +24,24 @@ const OrderDetails = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    (async () => {
+      if (auth.token) {
+        // get orders for the logged in user or all orders if admin
+        if (orders.length === 0) {
+          const resData = await sendRequest({
+            ignoreSnackbar: true,
+            url: "/orders",
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          });
+          dispatch(ADD_ORDERS_LIST(resData.orders));
+        }
+      }
+    })();
+  }, [auth.token]);
+
+  useEffect(() => {
     if (orders) {
       const order = orders.find((order) => order._id === router.query.id);
       setOrderDetails(order);
@@ -46,20 +64,20 @@ const OrderDetails = ({}) => {
 
   return (
     <>
+      <Button
+        startIcon={<KeyboardBackspaceIcon />}
+        variant="contained"
+        color="primary"
+        onClick={() => router.back()}
+      >
+        Go Back
+      </Button>
       {orderDetails && (
         <>
           <Head>
             <title>Order Details</title>
           </Head>
           <Box marginTop={2}>
-            <Button
-              startIcon={<KeyboardBackspaceIcon />}
-              variant="contained"
-              color="primary"
-              onClick={() => router.back()}
-            >
-              Go Back
-            </Button>
             <Container maxWidth="sm">
               <Typography variant="h5" gutterBottom paragraph>
                 <strong>ORDER {orderDetails._id}</strong>

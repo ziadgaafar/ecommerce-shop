@@ -8,7 +8,6 @@ import { ADD_CART } from "../../redux/cart";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import CustomScrollbar from "../CustomScrollbar";
-import { CodeSharp } from "@material-ui/icons";
 import { ADD_CATEGORIES_LIST } from "../../redux/categories";
 
 const variants = {
@@ -144,12 +143,12 @@ const Layout = ({ children }) => {
           />
         </motion.div>
       </Backdrop>
+      {loaded && (
+        <Container disableGutters fixed>
+          <header>
+            <Header />
+          </header>
 
-      <Container disableGutters fixed>
-        <header>
-          <Header />
-        </header>
-        {loaded && (
           <motion.main
             variants={variants}
             initial="hidden"
@@ -160,8 +159,8 @@ const Layout = ({ children }) => {
           >
             {children}
           </motion.main>
-        )}
-      </Container>
+        </Container>
+      )}
     </CustomScrollbar>
   );
 };

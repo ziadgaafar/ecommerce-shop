@@ -22,6 +22,34 @@ const UserDetails = ({}) => {
     );
   }, [users]);
 
+  useEffect(() => {
+    if (auth.token && auth?.user?.role !== "admin") {
+      dispatch(
+        SET_SNACKBAR({
+          snackbarType: "warning",
+          snackbarMessage: `You're Not Authorized`,
+        })
+      );
+      return router.push("/profile");
+    }
+
+    (async () => {
+      //get all users
+      if (auth.token) {
+        if (users.length === 0) {
+          const data = await sendRequest({
+            ignoreSnackbar: true,
+            url: "/user/all",
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          });
+          dispatch(ADD_USERS_LIST(data.users));
+        }
+      }
+    })();
+  }, [auth.token]);
+
   const handleUpdate = async () => {
     const resData = await sendRequest({
       method: "PATCH",
