@@ -13,14 +13,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useHttpClient } from "../hooks/http-hook";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { LOGIN } from "../redux/auth";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { ADD_TO_ORDERS_LIST } from "../redux/orders";
-import { ADD_TO_USERS_LIST } from "../redux/users";
-import { ADD_CATEGORIES_LIST } from "../redux/categories";
-import Cookies from "js-cookie";
 import Head from "next/head";
+import { loginHandler } from "../utils/fetchDataHandlers";
 
 const schema = yup.object({
   email: yup
@@ -36,7 +32,6 @@ const schema = yup.object({
 const Login = ({}) => {
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up("md"));
-  const { token } = useSelector((state) => state.auth);
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -44,53 +39,15 @@ const Login = ({}) => {
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async (values) => {
-      const responseData = await sendRequest({
-        url: `/user/login`,
-        method: "POST",
-        body: values,
-        headers: token && { Authorization: `Bearer ${token}` },
-      });
-      localStorage.setItem("firstLogin", true);
-      Cookies.set("refreshToken", responseData.refreshToken, { expires: 7 });
-      dispatch(
-        LOGIN({ token: responseData.accessToken, user: responseData.user })
-      );
-
-      const resData = await sendRequest({
-        ignoreSnackbar: true,
-        url: "/orders",
-        headers: {
-          Authorization: `Bearer ${responseData.accessToken}`,
-        },
-      });
-      dispatch(ADD_TO_ORDERS_LIST(resData.orders));
-
-      if (responseData.user.role === "admin") {
-        const data = await sendRequest({
-          ignoreSnackbar: true,
-          url: "/user/all",
-          headers: {
-            Authorization: `Bearer ${responseData.accessToken}`,
-          },
-        });
-        dispatch(ADD_TO_USERS_LIST(data.users));
-        const categoriesData = await sendRequest({
-          ignoreSnackbar: true,
-          url: "/categories",
-          headers: {
-            Authorization: `Bearer ${responseData.accessToken}`,
-          },
-        });
-        dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
-      }
-
+    onSubmit: (values) => {
+      loginHandler(values, dispatch, sendRequest, setDisabled);
+      setDisabled(true);
+      // redirect to /shop or to the given redirect query
       if (router.query.redirect) {
         router.push(`${router.query.redirect}`);
       } else {
         router.push("/shop");
       }
-      setDisabled(true);
     },
   });
 

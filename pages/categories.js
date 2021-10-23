@@ -29,6 +29,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { SET_SNACKBAR } from "../redux/snackbar";
 import Head from "next/head";
+import { getCategories } from "../utils/fetchDataHandlers";
 
 const schema = yup.object({
   categoryName: yup
@@ -116,13 +117,7 @@ const Categories = ({}) => {
     (async () => {
       if (auth.token) {
         // get categories
-        const categoriesData = await sendRequest({
-          ignoreSnackbar: true,
-          url: "/categories",
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        });
+        const categoriesData = await getCategories(sendRequest, auth.token);
         dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
       }
     })();

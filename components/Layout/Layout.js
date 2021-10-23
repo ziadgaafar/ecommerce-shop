@@ -3,12 +3,10 @@ import Header from "../Header";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { LOGIN } from "../../redux/auth";
 import { ADD_CART } from "../../redux/cart";
-import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import CustomScrollbar from "../CustomScrollbar";
-import { ADD_CATEGORIES_LIST } from "../../redux/categories";
+import { refreshHandler } from "../../utils/fetchDataHandlers";
 
 const variants = {
   hidden: { opacity: 0, x: -200, y: 0 },
@@ -66,43 +64,7 @@ const Layout = ({ children }) => {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    (async () => {
-      // update access token if the user is already logged in
-      const firstLogin = localStorage.getItem("firstLogin");
-      const refreshToken = Cookies.get("refreshToken");
-      if (firstLogin && !auth.token) {
-        const responseData = await sendRequest({
-          ignoreSnackbar: true,
-          url: `/user/accessToken`,
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        });
-        if (!responseData) {
-          return localStorage.removeItem("firstLogin");
-        }
-        dispatch(
-          LOGIN({
-            token: responseData.accessToken,
-            user: responseData.user,
-          })
-        );
-
-        // get all categories if admin
-        if (responseData.user.role === "admin") {
-          const categoriesData = await sendRequest({
-            ignoreSnackbar: true,
-            url: "/categories",
-            headers: {
-              Authorization: `Bearer ${responseData.accessToken}`,
-            },
-          });
-          dispatch(ADD_CATEGORIES_LIST(categoriesData.categories));
-        }
-      }
-      setLoaded(true);
-    })();
-
+    refreshHandler(dispatch, sendRequest, auth, setLoaded);
     // get the saved cart from local storage
     const __next__cart01__eshop = JSON.parse(
       localStorage.getItem("__next__cart01__eshop")

@@ -8,6 +8,7 @@ import { SET_SNACKBAR } from "../../redux/snackbar";
 import Head from "next/head";
 import { useHttpClient } from "../../hooks/http-hook";
 import { ADD_USERS_LIST } from "../../redux/users";
+import { getUsers } from "../../utils/fetchDataHandlers";
 
 const Users = ({}) => {
   const { users, auth } = useSelector((state) => state);
@@ -29,13 +30,7 @@ const Users = ({}) => {
     (async () => {
       //get all users
       if (auth.token) {
-        const data = await sendRequest({
-          ignoreSnackbar: true,
-          url: "/user/all",
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        });
+        const data = await getUsers(sendRequest, auth.token);
         dispatch(ADD_USERS_LIST(data.users));
       }
     })();

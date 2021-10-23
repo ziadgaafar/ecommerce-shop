@@ -9,8 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/router";
@@ -24,6 +23,7 @@ import withAuth from "../hoc/withAuth";
 import { useHttpClient } from "../hooks/http-hook";
 import { imageUpload } from "../utils/imageUpload";
 import OrdersTable from "../components/OrdersTable";
+import { getOrders } from "../utils/fetchDataHandlers";
 
 const schema = yup.object({
   firstName: yup.string().min(4, "Enter a Valid Name"),
@@ -33,6 +33,7 @@ const schema = yup.object({
 });
 
 const Profile = () => {
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -114,14 +115,9 @@ const Profile = () => {
     (async () => {
       if (token) {
         // get orders for the logged in user or all orders if admin
-        const resData = await sendRequest({
-          ignoreSnackbar: true,
-          url: "/orders",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const resData = await getOrders(sendRequest, token);
         dispatch(ADD_ORDERS_LIST(resData.orders));
+        setLoaded(true);
       }
     })();
   }, [token]);
@@ -308,23 +304,31 @@ const Profile = () => {
                       <Divider />
                     </Typography>
                   </Grid>
-                  {orders.length > 0 ? (
-                    <OrdersTable rows={orders} />
-                  ) : (
-                    <Box padding={2}>
-                      <Grid container alignItems="center" direction="column">
-                        <Typography variant="h5" gutterBottom>
-                          You have no orders!
-                        </Typography>
-                        <Button
-                          color="secondary"
-                          variant="contained"
-                          onClick={() => router.push("/shop")}
-                        >
-                          Start Shopping
-                        </Button>
-                      </Grid>
-                    </Box>
+                  {loaded && (
+                    <>
+                      {orders.length > 0 ? (
+                        <OrdersTable rows={orders} />
+                      ) : (
+                        <Box padding={2}>
+                          <Grid
+                            container
+                            alignItems="center"
+                            direction="column"
+                          >
+                            <Typography variant="h5" gutterBottom>
+                              You have no orders!
+                            </Typography>
+                            <Button
+                              color="secondary"
+                              variant="contained"
+                              onClick={() => router.push("/shop")}
+                            >
+                              Start Shopping
+                            </Button>
+                          </Grid>
+                        </Box>
+                      )}
+                    </>
                   )}
                 </Grid>
               </Box>

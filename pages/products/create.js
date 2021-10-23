@@ -21,6 +21,7 @@ import withAuth from "../../hoc/withAuth";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import axios from "../../axios";
 
 const schema = yup.object({
   title: yup
@@ -50,9 +51,9 @@ const schema = yup.object({
   category: yup.string().required("Category is Required!"),
 });
 
-const CreateProduct = () => {
+const CreateProduct = ({ categories }) => {
   const router = useRouter();
-  const { categories, auth } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
   const { sendRequest } = useHttpClient();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ const CreateProduct = () => {
     }
     dispatch(SET_LOADING(true));
     const uploadedImages = await imageUpload(imagesArr);
-    const resdata = await sendRequest({
+    await sendRequest({
       method: "POST",
       url: "/products",
       body: { ...values, images: uploadedImages },
@@ -92,9 +93,6 @@ const CreateProduct = () => {
         Authorization: `Bearer ${auth.token}`,
       },
     });
-    // if (resdata) {
-    //   router.push("/shop");
-    // }
   };
 
   const handleImagesUpload = async (e) => {
@@ -370,3 +368,17 @@ const CreateProduct = () => {
 };
 
 export default withAuth(CreateProduct);
+
+export const getServerSideProps = async () => {
+  let categoriesResponse;
+  try {
+    categoriesResponse = await axios.get(`/categories`);
+  } catch (error) {
+    console.log(error);
+  }
+  return {
+    props: {
+      categories: categoriesResponse.data.categories,
+    },
+  };
+};

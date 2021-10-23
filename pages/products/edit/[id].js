@@ -51,9 +51,9 @@ const schema = yup.object({
   category: yup.string().required("Category is Required!"),
 });
 
-const EditProduct = ({ product }) => {
+const EditProduct = ({ product, categories }) => {
   const router = useRouter();
-  const { categories, auth } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
   const { sendRequest } = useHttpClient();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -387,12 +387,17 @@ export default withAuth(EditProduct);
 export const getServerSideProps = async (context) => {
   const id = context.params.id;
   let response;
+  let categoriesResponse;
   try {
     response = await axios.get(`/products/${id}`);
+    categoriesResponse = await axios.get(`/categories`);
   } catch (error) {
     console.log(error);
   }
   return {
-    props: { product: response.data.product },
+    props: {
+      product: response.data.product,
+      categories: categoriesResponse.data.categories,
+    },
   };
 };
