@@ -56,15 +56,17 @@ const Register = ({}) => {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      try {
-        await sendRequest({
-          url: `/user/register`,
-          method: "post",
-          body: values,
-        });
+      setDisabled(true);
+      const resData = await sendRequest({
+        url: `/user/register`,
+        method: "post",
+        body: values,
+      });
+      if (resData) {
         router.push("/login");
-        setDisabled(true);
-      } catch (error) {}
+      } else {
+        setDisabled(false);
+      }
     },
   });
 
