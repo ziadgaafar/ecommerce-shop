@@ -40,14 +40,8 @@ const Login = ({}) => {
     initialValues: { email: "", password: "" },
     validationSchema: schema,
     onSubmit: (values) => {
-      loginHandler(values, dispatch, sendRequest, setDisabled);
       setDisabled(true);
-      // redirect to /shop or to the given redirect query
-      if (router.query.redirect) {
-        router.push(`${router.query.redirect}`);
-      } else {
-        router.push("/shop");
-      }
+      loginHandler(values, dispatch, sendRequest, setDisabled, router);
     },
   });
 

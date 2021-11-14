@@ -71,9 +71,27 @@ export const refreshHandler = async (
 };
 
 // When logging in
-export const loginHandler = async (values, dispatch, sendRequest) => {
+export const loginHandler = async (
+  values,
+  dispatch,
+  sendRequest,
+  setDisabled,
+  router
+) => {
   const responseData = await postLogin(sendRequest, values);
-  localStorage.setItem("firstLogin", true);
-  Cookies.set("refreshToken", responseData.refreshToken, { expires: 7 });
-  dispatch(LOGIN({ token: responseData.accessToken, user: responseData.user }));
+  if (responseData) {
+    localStorage.setItem("firstLogin", true);
+    Cookies.set("refreshToken", responseData.refreshToken, { expires: 7 });
+    dispatch(
+      LOGIN({ token: responseData.accessToken, user: responseData.user })
+    );
+    // redirect to /shop or to the given redirect query
+    if (router.query.redirect) {
+      router.push(`${router.query.redirect}`);
+    } else {
+      router.push("/shop");
+    }
+  } else {
+    setDisabled(false);
+  }
 };
