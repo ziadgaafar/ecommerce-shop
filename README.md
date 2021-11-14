@@ -12,8 +12,8 @@
     <br />
     <a href="https://linkdin.com/in/ziadgaafar">Contact me</a>
     ·
-    <a href="https://github.com/anilsenay/next-e-commerce/issues">Report Bug</a>
+    <a href="https://github.com/ziadgaafar/ecommerce-shop/issues">Report Bug</a>
     ·
-    <a href="https://github.com/anilsenay/next-e-commerce/issues">Request Feature</a>
+    <a href="https://github.com/ziadgaafar/ecommerce-shop/issues">Request Feature</a>
   </p>
 </p>
