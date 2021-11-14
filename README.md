@@ -4,7 +4,7 @@
 
   <h3 align="center">eCommerce Shop</h3>
   
-  <h4 align="center">Demo: <a href="https://next-e-commerce-example.vercel.app/">https://ecommerce-shop-three.vercel.app/</a></h4>
+  <h4 align="center">Demo: <a href="https://ecommerce-shop-three.vercel.app/">https://ecommerce-shop-three.vercel.app/</a></h4>
 
   <p align="center">
   An eCommerce website example built with Next.js that I made in 10-days as a self challenge. Express.js and MongoDB as Backend, Material-UI for styling, Stripe for payment, Redux for state management, Authentication and Authorization using JWT, Admin role for managing accounts and products.
