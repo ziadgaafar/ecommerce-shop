@@ -23,11 +23,11 @@ const schema = yup.object({
     .required("Email is required!"),
   firstName: yup
     .string("Enter Your First Name")
-    .min(4, "Enter a Valid name")
+    .min(3, "Enter a Valid name")
     .required("First Name is Required"),
   lastName: yup
     .string("Enter Your Last Name")
-    .min(4, "Enter a Valid name")
+    .min(3, "Enter a Valid name")
     .required("Last Name is Required"),
   password: yup
     .string("Enter your Password")

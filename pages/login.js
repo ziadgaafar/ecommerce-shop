@@ -45,6 +45,15 @@ const Login = ({}) => {
     },
   });
 
+  const demoLogin = (asAdmin = false) => {
+    const user = {
+      email: `${asAdmin ? "admin" : "john"}doe@email.com`,
+      password: `12345678`,
+    };
+    setDisabled(true);
+    loginHandler(user, dispatch, sendRequest, setDisabled, router);
+  };
+
   return (
     <>
       <Head>
@@ -130,6 +139,28 @@ const Login = ({}) => {
                         disabled={disabled}
                       >
                         LOGIN
+                      </Button>
+                    </Box>
+                    <Box marginTop={1}>
+                      <Button
+                        fullWidth
+                        color="primary"
+                        variant="contained"
+                        disabled={disabled}
+                        onClick={() => demoLogin()}
+                      >
+                        DEMO LOGIN
+                      </Button>
+                    </Box>
+                    <Box marginTop={1}>
+                      <Button
+                        fullWidth
+                        color="primary"
+                        variant="contained"
+                        disabled={disabled}
+                        onClick={() => demoLogin(true)}
+                      >
+                        DEMO LOGIN AS ADMIN
                       </Button>
                     </Box>
                   </Grid>
