@@ -84,7 +84,7 @@ const Product = ({ product, handleSelect, selectedIds }) => {
         <Grid item>
           {/* Image */}
           <Grid
-            containerc
+            container
             justifyContent="center"
             style={{ position: "relative" }}
             onMouseEnter={() => setGrow(true)}
